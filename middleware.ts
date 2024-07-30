@@ -14,6 +14,10 @@ export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
+  console.log('User Here:', req?.auth?.user);
+
+  const role = req?.auth?.user?.role;
+
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isAdminRoute = nextUrl.pathname.startsWith(adminRoutePrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
@@ -33,7 +37,7 @@ export default auth((req) => {
 
   // If user visited admin routes
   if (isAdminRoute) {
-    if (req.auth?.user?.email !== 'admin@gmail.com') {
+    if (role !== 'admin') {
       return Response.redirect(new URL('/', nextUrl));
     }
     return;
