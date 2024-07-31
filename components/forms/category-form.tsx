@@ -31,7 +31,7 @@ const formSchema = z.object({
     .string()
     .min(3, { message: 'Category Name must be at least 3 characters' })
     .max(100, { message: 'Category Name must be at most 100 characters' }),
-  image: z.string().nonempty({ message: 'Image is required' }),
+  image: z.string().nonempty({ message: 'Category Image is required' }),
   status: z.boolean().default(true),
   isPopular: z.boolean().default(false)
 });
@@ -40,18 +40,16 @@ type CategoryFormValues = z.infer<typeof formSchema>;
 
 interface CategoryFormProps {
   initialData: any | null;
-  id?: string | null;
+  id?: string;
 }
 
 export const CategoryForm: React.FC<CategoryFormProps> = ({
   initialData,
-  id = null
+  id
 }) => {
   const router = useRouter();
   const { toast } = useToast();
-  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [imgLoading, setImgLoading] = useState(false);
   const title = initialData ? 'Edit category' : 'Create category';
   const description = initialData ? 'Edit a category.' : 'Add a new category';
   const toastMessage = initialData ? 'Category updated.' : 'Category created.';
@@ -77,7 +75,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   const onSubmit = async (data: CategoryFormValues) => {
     try {
       setLoading(true);
-      console.log(data);
 
       if (initialData) {
         updateApi({ id, data: data })
@@ -125,8 +122,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       setLoading(false);
     }
   };
-
-  const triggerImgUrlValidation = () => form.trigger('image');
 
   return (
     <>

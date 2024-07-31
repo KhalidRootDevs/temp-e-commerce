@@ -7,17 +7,14 @@ import { useCategoryGetByIdApiQuery } from '@/features/admin/category/categoryAp
 export default function UpdateCategory({ id }: { id: string }) {
   const { isLoading, data: category } = useCategoryGetByIdApiQuery(id);
 
-  console.log('Single Category', category);
-
   if (isLoading) return <LoadingPage />;
+
+  if (!category || !category.status)
+    return <p className="text-lg font-medium">Category Not Found</p>;
 
   return (
     <>
-      {category.status ? (
-        <CategoryForm initialData={category.data} id={id} />
-      ) : (
-        <p>Category Not Found</p>
-      )}
+      <CategoryForm initialData={category.data} id={id} />
     </>
   );
 }

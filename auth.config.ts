@@ -3,8 +3,8 @@ import CredentialProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 
-import { JWT } from '@auth/core/jwt';
-import { User } from '@auth/core/types';
+// import { JWT } from '@auth/core/jwt';
+// import { User } from '@auth/core/types';
 
 declare module '@auth/core/types' {
   interface User {

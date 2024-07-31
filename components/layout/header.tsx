@@ -1,7 +1,7 @@
 import ThemeToggle from '@/components/layout/ThemeToggle/theme-toggle';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import { MobileSidebar } from './mobile-sidebar';
+import { MobileSidebar } from './admin/mobile-sidebar';
 import { UserNav } from './user-nav';
 
 export default function Header() {
@@ -13,8 +13,9 @@ export default function Header() {
             href={'https://github.com/Kiranism/next-shadcn-dashboard-starter'}
             target="_blank"
           >
-
-            <p className='text-lg font-semibold px-2 text-center'>Temp E-Commerce</p>
+            <p className="px-2 text-center text-lg font-semibold">
+              Temp E-Commerce
+            </p>
             {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

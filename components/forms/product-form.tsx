@@ -18,27 +18,18 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
+import {
+  useCreateApiMutation,
+  useUpdateApiMutation
+} from '@/features/admin/product/productApi';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Trash } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-// import FileUpload from "@/components/FileUpload";
-import FileUpload from '../file-upload';
+import FileUploadSingle from '../file-upload-single';
 import { Checkbox } from '../ui/checkbox';
 import { useToast } from '../ui/use-toast';
-
-const ImgSchema = z.object({
-  fileName: z.string(),
-  name: z.string(),
-  fileSize: z.number(),
-  size: z.number(),
-  fileKey: z.string(),
-  key: z.string(),
-  fileUrl: z.string(),
-  url: z.string()
-});
 
 export const IMG_MAX_LIMIT = 3;
 
@@ -47,9 +38,7 @@ const formSchema = z.object({
     .string()
     .min(3, { message: 'Product Name must be at least 3 characters' })
     .max(100, { message: 'Product Name must be at most 100 characters' }),
-  image: z
-    .array(ImgSchema)
-    .max(IMG_MAX_LIMIT, { message: 'You can only add up to 3 images' }),
+  image: z.string().nonempty({ message: 'Product Image is required' }),
   status: z.boolean().default(true),
   isPopular: z.boolean().default(false),
   price: z
@@ -74,22 +63,24 @@ type ProductFormValues = z.infer<typeof formSchema>;
 interface ProductFormProps {
   initialData: any | null;
   categories: any;
+  id?: string;
 }
 
 export const ProductForm: React.FC<ProductFormProps> = ({
   initialData,
-  categories
+  categories,
+  id
 }) => {
-  const params = useParams();
   const router = useRouter();
   const { toast } = useToast();
-  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [imgLoading, setImgLoading] = useState(false);
   const title = initialData ? 'Edit product' : 'Create product';
   const description = initialData ? 'Edit a product.' : 'Add a new product';
   const toastMessage = initialData ? 'Product updated.' : 'Product created.';
   const action = initialData ? 'Save changes' : 'Create';
+
+  const [createApi] = useCreateApiMutation();
+  const [updateApi] = useUpdateApiMutation();
 
   const defaultValues = initialData
     ? initialData
@@ -98,7 +89,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         description: '',
         price: 0,
         quantity: 0,
-        image: [],
+        image: '',
         category: '',
         status: true,
         isPopular: false
@@ -110,23 +101,46 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   });
 
   const onSubmit = async (data: ProductFormValues) => {
+    console.log('data', data);
+
     try {
       setLoading(true);
-
-      console.log('data', data);
       if (initialData) {
-        // await axios.post(`/api/products/edit-product/${initialData._id}`, data);
+        updateApi({ id, data: data })
+          .then((res: any) => {
+            if (!res?.error) {
+              toast({
+                description: toastMessage
+              });
+              router.push(`/admin/category`);
+            } else {
+              toast({
+                variant: 'destructive',
+                title: 'Uh oh! Something went wrong.',
+                description: 'There was a problem with your create request.'
+              });
+            }
+          })
+          .catch((err: any) => console.error(err));
       } else {
-        // const res = await axios.post(`/api/products/create-product`, data);
-        // console.log("product", res);
+        createApi(data)
+          .then((res: any) => {
+            if (!res?.error) {
+              toast({
+                description: toastMessage
+              });
+              router.push(`/admin/category`);
+            } else {
+              toast({
+                variant: 'destructive',
+                title: 'Uh oh! Something went wrong.',
+                description: 'There was a problem with your create request.'
+              });
+            }
+          })
+          .catch((err: any) => console.error(err));
       }
       router.refresh();
-      router.push(`/admin/product`);
-      toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.'
-      });
     } catch (error: any) {
       toast({
         variant: 'destructive',
@@ -137,42 +151,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       setLoading(false);
     }
   };
-
-  const onDelete = async () => {
-    try {
-      setLoading(true);
-      //   await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
-      router.refresh();
-      router.push(`/${params.storeId}/products`);
-    } catch (error: any) {
-    } finally {
-      setLoading(false);
-      setOpen(false);
-    }
-  };
-
-  const triggerImgUrlValidation = () => form.trigger('image');
 
   return (
     <>
-      {/* <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onDelete}
-        loading={loading}
-      /> */}
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
-        {initialData && (
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="sm"
-            onClick={() => setOpen(true)}
-          >
-            <Trash className="h-4 w-4" />
-          </Button>
-        )}
       </div>
       <Separator />
       <Form {...form}>
@@ -187,7 +170,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               <FormItem>
                 <FormLabel>Images</FormLabel>
                 <FormControl>
-                  <FileUpload
+                  <FileUploadSingle
                     onChange={field.onChange}
                     value={field.value}
                     onRemove={field.onChange}

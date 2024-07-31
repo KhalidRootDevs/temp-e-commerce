@@ -11,7 +11,6 @@ export default function Products({ searchParams }: any) {
   const page = Number(searchParams.page) || 1;
   const pageLimit = Number(searchParams.limit) || 10;
   const query = searchParams.search || null;
-  const offset = (page - 1) * pageLimit;
 
   const { isLoading, data: productData } = useGetAllApiQuery({
     page: page,

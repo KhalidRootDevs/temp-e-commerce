@@ -1,5 +1,5 @@
 import Header from '@/components/layout/header';
-import Sidebar from '@/components/layout/sidebar';
+import Sidebar from '@/components/layout/admin/sidebar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import type { Metadata } from 'next';
 
