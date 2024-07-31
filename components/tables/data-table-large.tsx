@@ -48,7 +48,7 @@ interface DataTableProps<TData, TValue> {
   };
 }
 
-export function ProductTable<TData, TValue>({
+export function DataTableLarge<TData, TValue>({
   columns,
   data,
   pageNo,

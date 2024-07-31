@@ -14,7 +14,7 @@ export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
-  console.log('User Here:', req?.auth?.user);
+  // console.log('User Here:', req?.auth?.user);
 
   const role = req?.auth?.user?.role;
 

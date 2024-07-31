@@ -2,8 +2,8 @@ import BreadCrumb from '@/components/breadcrumb';
 import CreateCategory from '../_components/CreateCategory';
 
 const breadcrumbItems = [
-  { title: 'Product', link: '/admin/product' },
-  { title: 'Create', link: '/admin/product/create' }
+  { title: 'Category', link: '/admin/category' },
+  { title: 'Create', link: '/admin/category/create' }
 ];
 
 export default function page() {

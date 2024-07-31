@@ -1,8 +1,8 @@
 'use client';
 
 import LoadingPage from '@/components/loading';
-import { CategoryTable } from '@/components/tables/category-tables/category-tables';
 import { columns } from '@/components/tables/category-tables/columns';
+import { DataTableLarge } from '@/components/tables/data-table-large';
 import { Separator } from '@/components/ui/separator';
 import { useCategoryGetAllApiQuery } from '@/features/admin/category/categoryApi';
 
@@ -34,7 +34,7 @@ export default function Categories({ searchParams }: paramsProps) {
     <div className="flex-1 space-y-4  p-4 pt-6 md:p-8">
       <Separator />
 
-      <CategoryTable
+      <DataTableLarge
         searchKey="name"
         pageNo={page}
         columns={columns}
