@@ -1,5 +1,6 @@
 import Header from '@/components/layout/header';
 import Sidebar from '@/components/layout/sidebar';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -17,7 +18,9 @@ export default function DashboardLayout({
       <Header />
       <div className="flex h-screen overflow-hidden">
         <Sidebar />
-        <main className="flex-1 overflow-hidden pt-16">{children}</main>
+        <main className="flex-1 pt-16">
+          <ScrollArea className="h-full">{children}</ScrollArea>
+        </main>
       </div>
     </>
   );
