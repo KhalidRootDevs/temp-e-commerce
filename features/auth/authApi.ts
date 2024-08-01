@@ -1,42 +1,42 @@
-import { apiSlice } from "../api/apiSlice";
+import { apiSlice } from '../api/apiSlice';
 
 export const authApi = apiSlice.injectEndpoints({
-  overrideExisting: module.hot?.status() === "apply",
-  endpoints: builder => ({
+  overrideExisting: module.hot?.status() === 'apply',
+  endpoints: (builder) => ({
     adminLogin: builder.mutation({
-      query: data => {
+      query: (data) => {
         return {
           url: `admin/auth/signin`,
-          method: "POST",
+          method: 'POST',
           body: data
         };
       }
     }),
     getProfile: builder.query({
-      query: id => `/user/${id}`,
-      providesTags: ["userProfile"]
+      query: (id) => `/user/${id}`,
+      providesTags: ['userProfile']
     }),
     getOwnProfile: builder.mutation({
-      query: () => "/admin/auth/me"
+      query: () => '/admin/auth/me'
     }),
     updateAdminProfile: builder.mutation({
       query: ({ data }) => {
         return {
           url: `/admin/auth/me`,
-          method: "PUT",
+          method: 'PUT',
           body: data
         };
       },
-      invalidatesTags: ["userProfile"]
+      invalidatesTags: ['userProfile']
     }),
     logoutUser: builder.mutation({
       query: () => {
         return {
-          url: "admin/auth/logout",
-          method: "POST"
+          url: 'admin/auth/logout',
+          method: 'POST'
         };
       },
-      invalidatesTags: ["userProfile"],
+      invalidatesTags: ['userProfile'],
       async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
         try {
           const {
@@ -44,12 +44,17 @@ export const authApi = apiSlice.injectEndpoints({
           } = await queryFulfilled;
           // dispatch(setValue({ target: "user", value: undefined }));
         } catch (err) {
-          hitToast("error", "Error");
+          console.error(err);
         }
       }
     })
   })
 });
 
-export const { useGetProfileQuery, useAdminLoginMutation, useGetOwnProfileMutation, useLogoutUserMutation, useUpdateAdminProfileMutation } =
-  authApi;
+export const {
+  useGetProfileQuery,
+  useAdminLoginMutation,
+  useGetOwnProfileMutation,
+  useLogoutUserMutation,
+  useUpdateAdminProfileMutation
+} = authApi;
