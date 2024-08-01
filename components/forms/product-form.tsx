@@ -10,6 +10,8 @@ import {
 } from '@/components/ui/form';
 import { Heading } from '@/components/ui/heading';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
   Select,
   SelectContent,
@@ -73,7 +75,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 }) => {
   const router = useRouter();
   const { toast } = useToast();
+  const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
+  const [imageType, setImageType] = useState('url');
+  const [isValidImage, setIsValidImage] = useState(false);
+
   const title = initialData ? 'Edit product' : 'Create product';
   const description = initialData ? 'Edit a product.' : 'Add a new product';
   const toastMessage = initialData ? 'Product updated.' : 'Product created.';
@@ -94,6 +100,16 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         status: true,
         isPopular: false
       };
+
+  const handleImageUrlChange = (event: any) => {
+    const url = event.target.value;
+    setImageUrl(url);
+
+    const img = new Image();
+    img.onload = () => setIsValidImage(true);
+    img.onerror = () => setIsValidImage(false);
+    img.src = url;
+  };
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(formSchema),
@@ -163,23 +179,87 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-8 rounded border border-gray-200 p-4 md:p-8"
         >
-          <FormField
-            control={form.control}
-            name="image"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Images</FormLabel>
-                <FormControl>
-                  <FileUploadSingle
-                    onChange={field.onChange}
-                    value={field.value}
-                    onRemove={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="flex items-center space-x-2">
+            <p className="text-sm font-semibold">Image Type:</p>
+            <RadioGroup
+              defaultValue={imageType}
+              className="flex items-center space-x-2"
+            >
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem
+                  value="url"
+                  id="r1"
+                  onClick={() => {
+                    setImageType('url');
+                  }}
+                />
+                <Label htmlFor="r1">Url</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem
+                  value="upload"
+                  id="r2"
+                  onClick={() => {
+                    setImageType('upload');
+                  }}
+                />
+                <Label htmlFor="r2">Upload</Label>
+              </div>
+            </RadioGroup>
+          </div>
+
+          {imageType === 'url' ? (
+            <FormField
+              control={form.control}
+              name="image"
+              render={({ field }) => (
+                <FormItem className="col-span-12 md:col-span-4">
+                  <FormLabel>Image Url</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder="Enter image url"
+                      {...field}
+                      value={imageUrl}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        handleImageUrlChange(e);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                  {isValidImage && (
+                    <div className="image-preview">
+                      <img
+                        src={imageUrl}
+                        alt="Preview"
+                        className="aspect-square w-40 rounded-lg object-cover"
+                      />
+                    </div>
+                  )}
+                </FormItem>
+              )}
+            />
+          ) : (
+            <FormField
+              control={form.control}
+              name="image"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Images</FormLabel>
+                  <FormControl>
+                    <FileUploadSingle
+                      onChange={field.onChange}
+                      value={field.value}
+                      onRemove={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+
           <div className="gap-8 md:grid md:grid-cols-12">
             <FormField
               control={form.control}
