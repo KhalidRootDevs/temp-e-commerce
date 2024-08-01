@@ -1,4 +1,4 @@
-import Header from '@/components/layout/header';
+import Header from '@/components/layout/admin/header';
 import Sidebar from '@/components/layout/admin/sidebar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import type { Metadata } from 'next';

@@ -123,16 +123,16 @@ export const clientNavItems: NavItem[] = [
     label: 'Home'
   },
   {
-    title: 'About',
-    href: '/about',
+    title: 'Product',
+    href: '/product',
     icon: 'user',
-    label: 'About'
+    label: 'Product'
   },
   {
-    title: 'Contact',
-    href: '/contact',
+    title: 'Category',
+    href: '/category',
     icon: 'employee',
-    label: 'Contact'
+    label: 'Category'
   }
 ];
 
@@ -234,18 +234,6 @@ export const sideLinks: SideLink[] = [
     label: 'category'
   },
   {
-    title: 'User',
-    href: '/admin/user',
-    icon: 'user',
-    label: 'user'
-  },
-  {
-    title: 'Employee',
-    href: '/admin/employee',
-    icon: 'employee',
-    label: 'employee'
-  },
-  {
     title: 'Settings',
     label: '',
     href: '',
@@ -254,14 +242,14 @@ export const sideLinks: SideLink[] = [
       {
         title: 'General',
         label: '',
-        href: '/sign-in',
+        href: '/admin/settings/general',
         icon: 'settings'
       },
       {
-        title: 'Local',
+        title: 'Administration',
         label: '',
-        href: '/sign-in-2',
-        icon: 'settings'
+        href: '/admin/settings/administration',
+        icon: 'userPen'
       }
     ]
   }

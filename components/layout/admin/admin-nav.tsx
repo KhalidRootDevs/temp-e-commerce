@@ -225,18 +225,23 @@ function NavLinkIconDropdown({ title, icon, label, sub }: NavLinkProps) {
           {title} {label ? `(${label})` : ''}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {sub!.map(({ title, icon, label, href }) => (
-          <DropdownMenuItem key={`${title}-${href}`} asChild>
-            <Link
-              href={href || '/'}
-              className={`${checkActiveNav(href || '/') ? 'bg-secondary' : ''}`}
-            >
-              <Icon className={`size-4`} />{' '}
-              <span className="ml-2 max-w-52 text-wrap">{title}</span>
-              {label && <span className="ml-auto text-xs">{label}</span>}
-            </Link>
-          </DropdownMenuItem>
-        ))}
+        {sub!.map(({ title, icon, label, href }) => {
+          const Icon = Icons[icon || 'arrowRight'];
+          return (
+            <DropdownMenuItem key={`${title}-${href}`} asChild>
+              <Link
+                href={href || '/'}
+                className={`${
+                  checkActiveNav(href || '/') ? 'bg-secondary' : ''
+                }`}
+              >
+                <Icon className={`size-4`} />{' '}
+                <span className="ml-2 max-w-52 text-wrap">{title}</span>
+                {label && <span className="ml-auto text-xs">{label}</span>}
+              </Link>
+            </DropdownMenuItem>
+          );
+        })}
       </DropdownMenuContent>
     </DropdownMenu>
   );

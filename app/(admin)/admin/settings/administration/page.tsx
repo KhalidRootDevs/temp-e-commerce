@@ -1,6 +1,9 @@
 import BreadCrumb from '@/components/breadcrumb';
 import { ScrollArea } from '@/components/ui/scroll-area';
-const breadcrumbItems = [{ title: 'Settings', link: '/admin/settings' }];
+
+const breadcrumbItems = [
+  { title: 'Administration Setting', link: '/admin/settings/administration' }
+];
 
 export default function page() {
   return (

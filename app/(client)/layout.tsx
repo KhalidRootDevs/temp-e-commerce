@@ -15,7 +15,7 @@ export default function DashboardLayout({
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main className="mt-16 flex-grow p-2">{children}</main>
+      <main className="mt-28 flex-grow p-2">{children}</main>
       <Footer />
     </div>
   );

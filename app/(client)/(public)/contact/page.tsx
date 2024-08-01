@@ -1,3 +1,3 @@
 export default function page() {
-  return <div>Contact</div>;
+  return <div className="mx-auto max-w-screen-xl">Contact</div>;
 }
