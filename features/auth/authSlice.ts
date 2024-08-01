@@ -1,12 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState: {
     user: null
   },
   reducers: {
     setValue: (state, action) => {
+      // @ts-ignore
       state[action.payload.target] = action.payload.value;
     },
     userLoggedIn: (state, action) => {

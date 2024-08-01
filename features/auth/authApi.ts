@@ -1,6 +1,7 @@
 import { apiSlice } from '../api/apiSlice';
 
 export const authApi = apiSlice.injectEndpoints({
+  // @ts-ignore
   overrideExisting: module.hot?.status() === 'apply',
   endpoints: (builder) => ({
     adminLogin: builder.mutation({
@@ -44,7 +45,7 @@ export const authApi = apiSlice.injectEndpoints({
           } = await queryFulfilled;
           // dispatch(setValue({ target: "user", value: undefined }));
         } catch (err) {
-          console.error(err);
+          throw err;
         }
       }
     })

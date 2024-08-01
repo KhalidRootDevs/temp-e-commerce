@@ -15,6 +15,7 @@ export default function AuthProvider({ children }: any) {
 
   useEffect(() => {
     setIsLoading(true);
+    // @ts-ignore
     getOwnProfile()
       .then((res) => {
         setIsLoading(false);

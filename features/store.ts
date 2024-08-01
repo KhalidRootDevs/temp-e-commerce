@@ -9,10 +9,12 @@ const store = configureStore({
     cart: cartReducer,
 
     [apiSlice.reducerPath]: apiSlice.reducer,
+    // @ts-ignore
     authStore: authSlice
     // galleryStore: gallerySlice,
   },
   devTools: process.env.NEXT_PUBLIC_NODE_ENV !== 'production',
+  // @ts-ignore
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares().concat(apiSlice.middleware)
 });
