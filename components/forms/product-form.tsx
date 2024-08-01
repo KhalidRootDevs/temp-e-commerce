@@ -128,7 +128,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               toast({
                 description: toastMessage
               });
-              router.push(`/admin/category`);
+              router.push(`/admin/product`);
             } else {
               toast({
                 variant: 'destructive',
@@ -145,7 +145,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               toast({
                 description: toastMessage
               });
-              router.push(`/admin/category`);
+              router.push(`/admin/product`);
             } else {
               toast({
                 variant: 'destructive',
@@ -286,7 +286,16 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormItem className="col-span-12 md:col-span-4">
                   <FormLabel>Quantity</FormLabel>
                   <FormControl>
-                    <Input type="number" disabled={loading} {...field} />
+                    <Input
+                      type="number"
+                      disabled={loading}
+                      {...field}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value ? parseFloat(e.target.value) : ''
+                        )
+                      }
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -300,7 +309,16 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormItem className="col-span-12 md:col-span-4">
                   <FormLabel>Price</FormLabel>
                   <FormControl>
-                    <Input type="number" disabled={loading} {...field} />
+                    <Input
+                      type="number"
+                      disabled={loading}
+                      {...field}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value ? parseFloat(e.target.value) : ''
+                        )
+                      }
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -348,7 +366,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <SelectContent>
                       {/* @ts-ignore  */}
                       {categories.map((category) => (
-                        <SelectItem key={category._id} value={category._id}>
+                        <SelectItem key={category.id} value={category.id}>
                           {category.name}
                         </SelectItem>
                       ))}
