@@ -13,9 +13,8 @@ export default function Products() {
 
   return (
     <div>
-      <h4 className="text-lg font-semibold">Latest products for you</h4>
-
-      <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-5">
+      <h4 className="p-2 text-lg font-semibold">Latest products for you</h4>
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-5">
         {productData?.data?.map((product: Product) => (
           <div key={product.id}>
             <ProductCard product={product} />

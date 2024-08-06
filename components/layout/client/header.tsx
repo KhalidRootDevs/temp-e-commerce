@@ -17,6 +17,8 @@ export default function Header() {
         </Link>
 
         <div className="flex items-center gap-2">
+          <AuthNav />
+          <UserNav />
           <ThemeToggle />
         </div>
       </div>
@@ -30,8 +32,6 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-2">
-          <AuthNav />
-          <UserNav />
           <CartComponent />
         </div>
       </nav>

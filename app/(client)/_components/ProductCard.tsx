@@ -73,8 +73,10 @@ export default function ProductCard({ product }: ProductCardProps) {
         <p className="text-sm text-gray-500">
           {product.description.substring(0, 100)}...
         </p>
-        <div className="flex items-center justify-between space-x-2">
-          <span className="text-sm text-gray-600">$ {product.price}</span>
+        <div className="flex items-center justify-between space-x-2 border-t pt-2">
+          <span className="text-base font-medium text-gray-800">
+            $ {product.price}
+          </span>
           {!isInCart ? (
             <Button
               variant="outline"
@@ -85,11 +87,23 @@ export default function ProductCard({ product }: ProductCardProps) {
               Add to cart
             </Button>
           ) : (
-            <>
-              <span>{`${itemQuantity} x`}</span>
-              <Button onClick={handleIncreaseQuantity}>+</Button>
-              <Button onClick={handleDecreaseQuantity}>-</Button>
-            </>
+            <div className="grid grid-cols-3 gap-1">
+              <Button
+                variant="default"
+                size="sm"
+                onClick={handleIncreaseQuantity}
+              >
+                +
+              </Button>
+              <span className="w-10 p-1 text-center text-sm">{`${itemQuantity}`}</span>
+              <Button
+                variant="default"
+                size="sm"
+                onClick={handleDecreaseQuantity}
+              >
+                -
+              </Button>
+            </div>
           )}
         </div>
       </div>

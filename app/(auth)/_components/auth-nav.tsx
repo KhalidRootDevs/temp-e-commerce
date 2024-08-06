@@ -8,7 +8,7 @@ export default async function AuthNav() {
     <>
       {session ? null : (
         <Link href={`/user-login`}>
-          <Button variant="ghost" size="lg">
+          <Button variant="outline" size="icon" className="h-8 w-14">
             Login
           </Button>
         </Link>

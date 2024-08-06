@@ -15,13 +15,20 @@ import useCartStore from '@/store/cartStore';
 import { Icons } from '../../../components/icons';
 
 export default function CartComponent() {
-  const { cart } = useCartStore();
+  const { cart, totalItems, totalPrice } = useCartStore();
+
+  console.log(cart, totalItems, totalPrice);
 
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant="outline" size="icon" className="relative">
           <Icons.cart className="h-[1.2rem] w-[1.2rem]" />
+          {totalItems ? (
+            <span className="absolute -right-2 -top-2 h-5 w-5 rounded-full bg-gray-500 px-1 text-[0.6rem] text-white">
+              {totalItems}
+            </span>
+          ) : null}
         </Button>
       </SheetTrigger>
       <SheetContent>
