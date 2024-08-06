@@ -1,12 +1,12 @@
-import { apiSlice } from "@/features/api/apiSlice";
+import { apiSlice } from '@/features/api/apiSlice';
 
 export const productApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProduct: builder.query({
       query: () => `/product/all`,
-      providesTags: ["webProduct"],
-    }),
-  }),
+      providesTags: ['webProduct']
+    })
+  })
 });
 
 export const { useGetProductQuery } = productApi;

@@ -3,7 +3,6 @@
 import LoadingPage from '@/components/loading';
 import { DataTableLarge } from '@/components/tables/data-table-large';
 import { columns } from '@/components/tables/product-tables/columns';
-
 import { Separator } from '@/components/ui/separator';
 import { useGetAllApiQuery } from '@/features/admin/product/productApi';
 

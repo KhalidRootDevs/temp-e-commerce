@@ -56,14 +56,14 @@ const cartSlice = createSlice({
       );
       if (itemExists) {
         itemExists.quantity++;
-        const localStorageExjest = loadCartState().find(
+        const localStorageExist = loadCartState().find(
           (item: any) => item.id === action.payload.id
         );
-        if (localStorageExjest) {
-          localStorageExjest.quantity++;
+        if (localStorageExist) {
+          localStorageExist.quantity++;
           updateItemQuantityInLocalStorage(
-            localStorageExjest.id,
-            localStorageExjest.quantity
+            localStorageExist.id,
+            localStorageExist.quantity
           ); // Update quantity in local storage
         }
       } else {
@@ -80,14 +80,14 @@ const cartSlice = createSlice({
     incrementQuantity: (state, action) => {
       const item = state.find((item: any) => item.id === action.payload);
       item.quantity++;
-      const localStorageExjest = loadCartState().find(
+      const localStorageExist = loadCartState().find(
         (item: any) => item.id === action.payload
       );
-      if (localStorageExjest) {
-        localStorageExjest.quantity++;
+      if (localStorageExist) {
+        localStorageExist.quantity++;
         updateItemQuantityInLocalStorage(
-          localStorageExjest.id,
-          localStorageExjest.quantity
+          localStorageExist.id,
+          localStorageExist.quantity
         ); // Update quantity in local storage
       }
     },
@@ -100,14 +100,14 @@ const cartSlice = createSlice({
         // state.splice(index, 1);
       } else {
         item.quantity--;
-        const localStorageExjest = loadCartState().find(
+        const localStorageExist = loadCartState().find(
           (item: any) => item.id === action.payload
         );
-        if (localStorageExjest) {
-          localStorageExjest.quantity--;
+        if (localStorageExist) {
+          localStorageExist.quantity--;
           updateItemQuantityInLocalStorage(
-            localStorageExjest.id,
-            localStorageExjest.quantity
+            localStorageExist.id,
+            localStorageExist.quantity
           ); // Update quantity in local storage
         }
       }

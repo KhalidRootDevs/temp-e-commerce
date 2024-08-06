@@ -3,22 +3,32 @@ import { createSlice } from '@reduxjs/toolkit';
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    user: null
+    user: null,
+    token: null
   },
   reducers: {
-    setValue: (state, action) => {
+    setCredentials: (state, action) => {
       // @ts-ignore
-      state[action.payload.target] = action.payload.value;
+
+      const { user, accessToken } = action.payload;
+      state.user = user;
+      state.token = accessToken;
     },
-    userLoggedIn: (state, action) => {
-      state.user = action.payload;
+    userLogIn: (state, action) => {
+      const { user, accessToken } = action.payload;
+      state.user = user;
+      state.token = accessToken;
     },
-    userLoggedOut: (state, action) => {
-      state.user = action.payload.value;
+    userLogOut: (state, action): any => {
+      state.user = null;
+      state.token = null;
     }
   }
 });
 
-export const { userLoggedIn, userLoggedOut, setValue } = authSlice.actions;
+export const { userLogIn, userLogOut, setCredentials } = authSlice.actions;
 
-export default authSlice;
+export default authSlice.reducer;
+
+export const selectCurrentUser = (state: any) => state?.auth?.user;
+export const selectCurrentToken = (state: any) => state?.auth?.token;

@@ -1,13 +1,14 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 
 type ImageMagnifierProps = {
   src: string;
-  className: string;
+  alt: string;
+  className?: string;
   width: number;
   height: number;
-  alt: string;
   magnifierHeight?: number;
   magnifierWidth?: number;
   zoomLevel?: number;
@@ -22,7 +23,7 @@ const ImageMagnifier = ({
   magnifierHeight = 300,
   magnifierWidth = 300,
   zoomLevel = 3
-}: any) => {
+}: ImageMagnifierProps) => {
   const [showMagnifier, setShowMagnifier] = useState(false);
   const [[imgWidth, imgHeight], setSize] = useState([0, 0]);
   const [[x, y], setXY] = useState([0, 0]);
@@ -52,7 +53,7 @@ const ImageMagnifier = ({
 
   return (
     <div className="relative inline-block cursor-zoom-in overflow-hidden">
-      <img
+      <Image
         src={src}
         className={className}
         width={width}

@@ -4,7 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useGetOwnProfileMutation } from './authApi';
-import { setValue, userLoggedOut } from './authSlice';
+import { setCredentials, userLogOut } from './authSlice';
 
 export default function AuthProvider({ children }: any) {
   const dispatch = useDispatch();
@@ -19,13 +19,12 @@ export default function AuthProvider({ children }: any) {
     getOwnProfile()
       .then((res) => {
         setIsLoading(false);
-        dispatch(setValue({ target: 'user', value: res.data.data }));
+        dispatch(setCredentials({ target: 'user', value: res.data.data }));
         if (path.includes('/admin-login')) replace('/admin/dashboard');
-        // replace('/admin/dashboard')
       })
       .catch((_err) => {
         setIsLoading(false);
-        dispatch(userLoggedOut(undefined));
+        dispatch(userLogOut(undefined));
         replace('/admin-login');
       })
       .finally(() => setIsLoading(false));

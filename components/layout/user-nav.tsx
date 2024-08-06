@@ -1,4 +1,5 @@
 'use client';
+import { deleteAccessToken } from '@/app/actions';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,6 +14,12 @@ import {
 import { signOut, useSession } from 'next-auth/react';
 export function UserNav() {
   const { data: session } = useSession();
+
+  const handleLogout = () => {
+    deleteAccessToken();
+    signOut();
+  };
+
   if (session) {
     return (
       <DropdownMenu>
@@ -48,10 +55,7 @@ export function UserNav() {
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            className="cursor-pointer"
-            onClick={() => signOut()}
-          >
+          <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
             Log out
           </DropdownMenuItem>
         </DropdownMenuContent>

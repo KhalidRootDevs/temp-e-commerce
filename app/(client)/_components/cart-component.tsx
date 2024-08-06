@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -9,10 +11,11 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet';
-import { Icons } from '../icons';
+import useCartStore from '@/store/cartStore';
+import { Icons } from '../../../components/icons';
 
 export default function CartComponent() {
-  const cartItem = [];
+  const { cart } = useCartStore();
 
   return (
     <Sheet>
@@ -25,15 +28,29 @@ export default function CartComponent() {
         <SheetHeader>
           <SheetTitle>Product Cart</SheetTitle>
           <SheetDescription>
-            {cartItem.length
-              ? `You have added ${cartItem.length} items`
+            {cart.length
+              ? `You have added ${cart.length} items`
               : `You have not added any item to cart, Please add some items to your cart. Please!`}
           </SheetDescription>
         </SheetHeader>
+        {/* Render cart items */}
+        {cart.length > 0 && (
+          <ul>
+            {cart.map((item, index) => (
+              <li key={index}>
+                <div className="space-x-2">
+                  <span>{item.name}</span>
+                  <span>${item.price}</span>
+                  <span>x{item.quantity}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
         <div className="flex-1 flex-grow"></div>
         <SheetFooter>
           <SheetClose asChild>
-            <Button type="submit" disabled={cartItem.length === 0}>
+            <Button type="submit" disabled={cart.length === 0}>
               Check Out
             </Button>
           </SheetClose>

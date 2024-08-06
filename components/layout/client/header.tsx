@@ -3,7 +3,7 @@ import ThemeToggle from '@/components/layout/ThemeToggle/theme-toggle';
 import { clientNavItems } from '@/constants/data';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import CartComponent from '../cart-component';
+import CartComponent from '../../../app/(client)/_components/cart-component';
 import { UserNav } from '../user-nav';
 import { ClientNav } from './client-nav';
 import { MobileSidebar } from './mobile-sidebar';
