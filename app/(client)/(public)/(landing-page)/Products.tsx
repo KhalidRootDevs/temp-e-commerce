@@ -9,8 +9,6 @@ export default function Products() {
 
   if (isLoading) return <div>Loading...</div>;
 
-  console.log('Product here: ', productData);
-
   return (
     <div>
       <h4 className="p-2 text-lg font-semibold">Latest products for you</h4>

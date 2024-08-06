@@ -21,6 +21,11 @@ export default function CartComponent() {
 
   return (
     <Sheet>
+      <>
+        {totalPrice ? (
+          <span className="font-medium">${totalPrice.toFixed(2)}</span>
+        ) : null}
+      </>
       <SheetTrigger asChild>
         <Button variant="outline" size="icon" className="relative">
           <Icons.cart className="h-[1.2rem] w-[1.2rem]" />
