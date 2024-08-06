@@ -7,6 +7,7 @@ export async function setAccessToken(token: any) {
     name: 'accessToken',
     value: token,
     httpOnly: true,
+    secure: process.env.NODE_ENV !== 'development',
     path: '/'
   });
 }
