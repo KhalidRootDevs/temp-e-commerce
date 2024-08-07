@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/sheet';
 import useCartStore from '@/store/cartStore';
 import { Icons } from '../../../components/icons';
+import CartDrawerItem from './CartDrawerItem';
 
 export default function CartComponent() {
   const { cart, totalItems, totalPrice } = useCartStore();
@@ -47,19 +48,19 @@ export default function CartComponent() {
         </SheetHeader>
         {/* Render cart items */}
         {cart.length > 0 && (
-          <ul>
+          <ul className="divide-y py-5">
             {cart.map((item, index) => (
-              <li key={index}>
-                <div className="space-x-2">
-                  <span>{item.name}</span>
-                  <span>${item.price}</span>
-                  <span>x{item.quantity}</span>
-                </div>
-              </li>
+              <CartDrawerItem key={item.id} item={item} />
             ))}
           </ul>
         )}
-        <div className="flex-1 flex-grow"></div>
+
+        {totalPrice ? (
+          <div className="flex items-center justify-between border-t py-2">
+            <p>Total Price: </p>
+            <p>${totalPrice.toFixed(2)}</p>
+          </div>
+        ) : null}
         <SheetFooter>
           <SheetClose asChild>
             <Button type="submit" disabled={cart.length === 0}>

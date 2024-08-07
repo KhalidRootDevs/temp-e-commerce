@@ -59,6 +59,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       setItemQuantity(1);
     }
   };
+
   return (
     <div className="rounded-lg border border-gray-100 bg-white">
       <img
@@ -91,17 +92,17 @@ export default function ProductCard({ product }: ProductCardProps) {
               <Button
                 variant="default"
                 size="sm"
-                onClick={handleIncreaseQuantity}
+                onClick={handleDecreaseQuantity}
               >
-                +
+                -
               </Button>
               <span className="w-10 p-1 text-center text-sm">{`${itemQuantity}`}</span>
               <Button
                 variant="default"
                 size="sm"
-                onClick={handleDecreaseQuantity}
+                onClick={handleIncreaseQuantity}
               >
-                -
+                +
               </Button>
             </div>
           )}
