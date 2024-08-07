@@ -12,13 +12,17 @@ import {
   SheetTrigger
 } from '@/components/ui/sheet';
 import useCartStore from '@/store/cartStore';
+import { useRouter } from 'next/navigation';
 import { Icons } from '../../../components/icons';
 import CartDrawerItem from './CartDrawerItem';
 
 export default function CartComponent() {
   const { cart, totalItems, totalPrice } = useCartStore();
+  const router = useRouter();
 
-  console.log(cart, totalItems, totalPrice);
+  const handleRedirect = () => {
+    router.push('/checkout');
+  };
 
   return (
     <Sheet>
@@ -49,7 +53,7 @@ export default function CartComponent() {
         {/* Render cart items */}
         {cart.length > 0 && (
           <ul className="divide-y py-5">
-            {cart.map((item, index) => (
+            {cart.map((item) => (
               <CartDrawerItem key={item.id} item={item} />
             ))}
           </ul>
@@ -63,8 +67,12 @@ export default function CartComponent() {
         ) : null}
         <SheetFooter>
           <SheetClose asChild>
-            <Button type="submit" disabled={cart.length === 0}>
-              Check Out
+            <Button
+              type="submit"
+              onClick={handleRedirect}
+              disabled={cart.length === 0}
+            >
+              Checkout
             </Button>
           </SheetClose>
         </SheetFooter>
