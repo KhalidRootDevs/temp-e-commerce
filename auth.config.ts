@@ -2,10 +2,9 @@ import { NextAuthConfig } from 'next-auth';
 import CredentialProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
-import { setAccessToken } from './app/actions';
+import { getNewAccessToken, setAccessToken } from './app/actions';
 
-// import { JWT } from '@auth/core/jwt';
-// import { User } from '@auth/core/types';
+import { jwtDecode } from 'jwt-decode';
 
 declare module '@auth/core/types' {
   interface User {
@@ -13,6 +12,7 @@ declare module '@auth/core/types' {
     _id: string;
     role: string;
     accessToken: string;
+    refreshToken: string;
   }
 
   interface Session {
@@ -27,6 +27,8 @@ declare module '@auth/core/jwt' {
     image: string;
     role: string;
     accessToken: string;
+    refreshToken: string;
+    accessTokenExpires: number;
   }
 }
 
@@ -65,7 +67,7 @@ const authConfig = {
           return user;
         } else {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/admin/auth/signin`,
+            `${process.env.BACKEND_URL}/admin/login`,
             {
               method: 'POST',
               headers: {
@@ -85,6 +87,7 @@ const authConfig = {
             setAccessToken(data.data.accessToken);
             return data.data;
           } else {
+            // Invalid credentials
             return null;
           }
         }
@@ -98,15 +101,28 @@ const authConfig = {
         token.role = user.role ?? '';
         token.image = user.image ?? '';
         token.accessToken = user.accessToken ?? '';
+        token.refreshToken = user.refreshToken ?? '';
+      }
+      if (token?.accessToken) {
+        const decodedToken = jwtDecode(token.accessToken);
+        token.accessTokenExpires = decodedToken?.exp! * 1000;
       }
 
-      return token;
+      if (Date.now() < token?.accessTokenExpires!) {
+        console.log('Token is valid');
+        return token;
+      }
+
+      console.log('Token is invalid:', token);
+
+      return getNewAccessToken(token);
     },
     async session({ session, token }) {
       session.user.id = token.id ?? '';
       session.user.role = token.role ?? '';
       session.user.image = token.image ?? '';
       session.user.accessToken = token.accessToken ?? '';
+      session.user.refreshToken = token.refreshToken ?? '';
       return session;
     }
   },
