@@ -1,16 +1,16 @@
-import { apiSlice } from "@/features/api/apiSlice";
+import { apiSlice } from '@/features/api/apiSlice';
 
 export const stripePayApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProduct: builder.query({
       query: (data) => ({
         url: `/stripe/payment/intent`,
-        method: "POST",
-        body: data,
+        method: 'POST',
+        body: data
       }),
-      providesTags: ["stripePay"],
-    }),
-  }),
+      providesTags: ['stripePay']
+    })
+  })
 });
 
 export const { useGetProductQuery } = stripePayApi;

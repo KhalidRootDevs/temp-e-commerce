@@ -83,7 +83,6 @@ const authConfig = {
 
           if (data.status) {
             setAccessToken(data.data.accessToken);
-
             return data.data;
           } else {
             return null;

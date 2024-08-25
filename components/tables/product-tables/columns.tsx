@@ -32,7 +32,7 @@ export const columns: ColumnDef<Product>[] = [
       <Image
         width={0}
         height={0}
-        sizes='100vh'
+        sizes="100vh"
         src={row.original?.image}
         alt={row.original?.name}
         className="aspect-video h-10 w-fit rounded object-cover"
