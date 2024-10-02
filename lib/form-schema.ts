@@ -1,39 +1,40 @@
 import * as z from 'zod';
 
-export const profileSchema = z.object({
-  firstname: z
+export const CategoryFormSchema = z.object({
+  name: z
     .string()
-    .min(3, { message: 'Product Name must be at least 3 characters' }),
-  lastname: z
-    .string()
-    .min(3, { message: 'Product Name must be at least 3 characters' }),
-  email: z
-    .string()
-    .email({ message: 'Product Name must be at least 3 characters' }),
-  contactno: z.coerce.number(),
-  country: z.string().min(1, { message: 'Please select a category' }),
-  city: z.string().min(1, { message: 'Please select a category' }),
-  // jobs array is for the dynamic fields
-  jobs: z.array(
-    z.object({
-      jobcountry: z.string().min(1, { message: 'Please select a category' }),
-      jobcity: z.string().min(1, { message: 'Please select a category' }),
-      jobtitle: z
-        .string()
-        .min(3, { message: 'Product Name must be at least 3 characters' }),
-      employer: z
-        .string()
-        .min(3, { message: 'Product Name must be at least 3 characters' }),
-      startdate: z
-        .string()
-        .refine((value) => /^\d{4}-\d{2}-\d{2}$/.test(value), {
-          message: 'Start date should be in the format YYYY-MM-DD'
-        }),
-      enddate: z.string().refine((value) => /^\d{4}-\d{2}-\d{2}$/.test(value), {
-        message: 'End date should be in the format YYYY-MM-DD'
-      })
-    })
-  )
+    .min(3, { message: 'Category Name must be at least 3 characters' })
+    .max(100, { message: 'Category Name must be at most 100 characters' }),
+  image: z.string().nonempty({ message: 'Category Image is required' }),
+  status: z.boolean().default(true),
+  isPopular: z.boolean().default(false)
 });
 
-export type ProfileFormValues = z.infer<typeof profileSchema>;
+export type CategoryFormValues = z.infer<typeof CategoryFormSchema>;
+
+export const ProductFormSchema = z.object({
+  name: z
+    .string()
+    .min(3, { message: 'Product Name must be at least 3 characters' })
+    .max(100, { message: 'Product Name must be at most 100 characters' }),
+  image: z.string().nonempty({ message: 'Product Image is required' }),
+  status: z.boolean().default(true),
+  isPopular: z.boolean().default(false),
+  price: z
+    .number()
+    .int()
+    .nonnegative({ message: 'Price must be a non-negative integer' }),
+  quantity: z
+    .number()
+    .int()
+    .nonnegative({ message: 'Quantity must be a non-negative integer' }),
+  category: z.string().min(1, { message: 'Please select a category' }),
+  description: z
+    .string()
+    .min(3, { message: 'Product description must be at least 3 characters' })
+    .max(1000, {
+      message: 'Product description must be at most 1000 characters'
+    })
+});
+
+export type ProductFormValues = z.infer<typeof ProductFormSchema>;

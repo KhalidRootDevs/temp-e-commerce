@@ -21,7 +21,7 @@ export default function CheckoutPage() {
             <div className="col-span-1 text-end">Total</div>
           </div>
 
-          <ul className="divide-y py-5">
+          <ul className="divide-y py-5 ">
             {cart.map((item) => (
               <CartDetailsItem key={item.id} item={item} />
             ))}

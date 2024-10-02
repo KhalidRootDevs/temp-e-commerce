@@ -19,7 +19,7 @@ export async function deleteAccessToken() {
 export async function getNewAccessToken(token: any) {
   try {
     const response = await fetch(
-      `${process.env.BACKEND_URL}/admin/refresh-token`,
+      `${process.env.BACKEND_URL}/admin/auth/refresh-token`,
       {
         method: 'GET',
         headers: {
@@ -33,6 +33,14 @@ export async function getNewAccessToken(token: any) {
     const data = await response.json();
 
     if (data.status) {
+      // cookies().set({
+      //   name: 'accessToken',
+      //   value: data.data.accessToken,
+      //   httpOnly: true,
+      //   secure: process.env.NODE_ENV !== 'development',
+      //   path: '/'
+      // });
+
       return {
         ...token,
         accessToken: data.data.accessToken,

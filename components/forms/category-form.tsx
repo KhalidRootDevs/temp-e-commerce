@@ -17,28 +17,16 @@ import {
   useCategoryCreateApiMutation,
   useCategoryUpdateApiMutation
 } from '@/features/admin/category/categoryApi';
+import { CategoryFormSchema, CategoryFormValues } from '@/lib/form-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
 import FileUploadSingle from '../file-upload-single';
 import { Checkbox } from '../ui/checkbox';
 import { useToast } from '../ui/use-toast';
 
 export const IMG_MAX_LIMIT = 1;
-
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(3, { message: 'Category Name must be at least 3 characters' })
-    .max(100, { message: 'Category Name must be at most 100 characters' }),
-  image: z.string().nonempty({ message: 'Category Image is required' }),
-  status: z.boolean().default(true),
-  isPopular: z.boolean().default(false)
-});
-
-type CategoryFormValues = z.infer<typeof formSchema>;
 
 interface CategoryFormProps {
   initialData: any | null;
@@ -84,7 +72,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   };
 
   const form = useForm<CategoryFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(CategoryFormSchema),
     defaultValues
   });
 

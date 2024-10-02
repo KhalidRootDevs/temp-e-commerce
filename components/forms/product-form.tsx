@@ -24,43 +24,16 @@ import {
   useCreateApiMutation,
   useUpdateApiMutation
 } from '@/features/admin/product/productApi';
+import { ProductFormSchema, ProductFormValues } from '@/lib/form-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
 import FileUploadSingle from '../file-upload-single';
 import { Checkbox } from '../ui/checkbox';
 import { useToast } from '../ui/use-toast';
 
 export const IMG_MAX_LIMIT = 3;
-
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(3, { message: 'Product Name must be at least 3 characters' })
-    .max(100, { message: 'Product Name must be at most 100 characters' }),
-  image: z.string().nonempty({ message: 'Product Image is required' }),
-  status: z.boolean().default(true),
-  isPopular: z.boolean().default(false),
-  price: z
-    .number()
-    .int()
-    .nonnegative({ message: 'Price must be a non-negative integer' }),
-  quantity: z
-    .number()
-    .int()
-    .nonnegative({ message: 'Quantity must be a non-negative integer' }),
-  category: z.string().min(1, { message: 'Please select a category' }),
-  description: z
-    .string()
-    .min(3, { message: 'Product description must be at least 3 characters' })
-    .max(1000, {
-      message: 'Product description must be at most 1000 characters'
-    })
-});
-
-type ProductFormValues = z.infer<typeof formSchema>;
 
 interface ProductFormProps {
   initialData: any | null;
@@ -112,7 +85,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   };
 
   const form = useForm<ProductFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(ProductFormSchema),
     defaultValues
   });
 

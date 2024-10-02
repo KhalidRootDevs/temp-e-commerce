@@ -67,7 +67,7 @@ const authConfig = {
           return user;
         } else {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/admin/login`,
+            `${process.env.BACKEND_URL}/admin/auth/login`,
             {
               method: 'POST',
               headers: {
@@ -115,7 +115,7 @@ const authConfig = {
 
       console.log('Token is invalid:', token);
 
-      return getNewAccessToken(token);
+      return await getNewAccessToken(token);
     },
     async session({ session, token }) {
       session.user.id = token.id ?? '';
