@@ -52,9 +52,9 @@ export type Product = {
   description: string;
   category: Category;
   createdAt: {
-    $date: string; // Consider using a proper date type if possible
+    $date: string;
   };
   updatedAt: {
-    $date: string; // Consider using a proper date type if possible
+    $date: string;
   };
 };
