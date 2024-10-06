@@ -29,6 +29,10 @@ interface NavProps extends React.HTMLAttributes<HTMLDivElement> {
   links: SideLink[];
   closeNav: () => void;
 }
+interface NavLinkProps extends SideLink {
+  subLink?: boolean;
+  closeNav: () => void;
+}
 
 export default function AdminNav({
   links,
@@ -90,10 +94,17 @@ function NavLink({
 }: NavLinkProps) {
   const { checkActiveNav } = useCheckActiveNav();
   const Icon = Icons[icon || 'arrowRight'];
+
+  const handleClick = () => {
+    if (!isLargeScreen()) {
+      closeNav();
+    }
+  };
+
   return (
     <Link
       href={href || '/'}
-      onClick={closeNav}
+      onClick={handleClick}
       className={cn(
         buttonVariants({
           variant: checkActiveNav(href || '/') ? 'secondary' : 'ghost',
@@ -106,11 +117,6 @@ function NavLink({
     >
       <Icon className={`mr-3 size-5`} />
       {title}
-      {/* {label && (
-        <div className="ml-2 rounded-lg bg-primary px-1 text-[0.625rem] text-primary-foreground">
-          {label}
-        </div>
-      )} */}
     </Link>
   );
 }
@@ -123,6 +129,12 @@ function NavLinkDropdown({ title, icon, label, sub, closeNav }: NavLinkProps) {
   const isChildActive = !!sub?.find((s) => checkActiveNav(s.href || '/'));
   const Icon = Icons[icon || 'arrowRight'];
 
+  const handleTriggerClick = () => {
+    if (!isLargeScreen()) {
+      closeNav();
+    }
+  };
+
   return (
     <Collapsible defaultOpen={isChildActive}>
       <CollapsibleTrigger
@@ -130,6 +142,7 @@ function NavLinkDropdown({ title, icon, label, sub, closeNav }: NavLinkProps) {
           buttonVariants({ variant: 'ghost', size: 'sm' }),
           'group h-12 w-full justify-start rounded-none px-6'
         )}
+        onClick={handleTriggerClick}
       >
         <Icon className={`mr-3 size-5`} />
         {title}
@@ -159,14 +172,22 @@ function NavLinkDropdown({ title, icon, label, sub, closeNav }: NavLinkProps) {
   );
 }
 
-function NavLinkIcon({ title, icon, label, href }: NavLinkProps) {
+function NavLinkIcon({ title, icon, label, href, closeNav }: NavLinkProps) {
   const { checkActiveNav } = useCheckActiveNav();
   const Icon = Icons[icon || 'arrowRight'];
+
+  const handleClick = () => {
+    if (!isLargeScreen()) {
+      closeNav();
+    }
+  };
+
   return (
     <Tooltip delayDuration={0}>
       <TooltipTrigger asChild>
         <Link
           href={href || '/'}
+          onClick={handleClick}
           className={cn(
             buttonVariants({
               variant: checkActiveNav(href || '/') ? 'secondary' : 'ghost',
@@ -189,14 +210,24 @@ function NavLinkIcon({ title, icon, label, href }: NavLinkProps) {
   );
 }
 
-function NavLinkIconDropdown({ title, icon, label, sub }: NavLinkProps) {
+function NavLinkIconDropdown({
+  title,
+  icon,
+  label,
+  sub,
+  closeNav
+}: NavLinkProps) {
   const { checkActiveNav } = useCheckActiveNav();
 
-  /* Open collapsible by default
-   * if one of child element is active */
   const isChildActive = !!sub?.find((s) => checkActiveNav(s.href || '/'));
 
   const Icon = Icons[icon || 'arrowRight'];
+
+  const handleTriggerClick = () => {
+    if (!isLargeScreen()) {
+      closeNav();
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -207,6 +238,7 @@ function NavLinkIconDropdown({ title, icon, label, sub }: NavLinkProps) {
               variant={isChildActive ? 'secondary' : 'ghost'}
               size="icon"
               className="h-12 w-12"
+              onClick={handleTriggerClick}
             >
               <Icon className={`size-5`} />
             </Button>
@@ -231,6 +263,7 @@ function NavLinkIconDropdown({ title, icon, label, sub }: NavLinkProps) {
             <DropdownMenuItem key={`${title}-${href}`} asChild>
               <Link
                 href={href || '/'}
+                onClick={() => !isLargeScreen() && closeNav()}
                 className={`${
                   checkActiveNav(href || '/') ? 'bg-secondary' : ''
                 }`}
@@ -245,4 +278,10 @@ function NavLinkIconDropdown({ title, icon, label, sub }: NavLinkProps) {
       </DropdownMenuContent>
     </DropdownMenu>
   );
+}
+
+// Helper function to check if screen size is large enough
+function isLargeScreen(): boolean {
+  // You can adjust this breakpoint as needed
+  return window.innerWidth >= 1024;
 }

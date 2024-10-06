@@ -112,7 +112,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
               });
               router.push(`/admin/category`);
             } else {
-              console.log('Error', res.error);
+              console.error('Error', res.error);
               toast({
                 variant: 'destructive',
                 title: 'Uh oh! Something went wrong.',
@@ -124,7 +124,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       }
       router.refresh();
     } catch (error: any) {
-      console.log('error', error);
+      console.error('error', error);
       toast({
         variant: 'destructive',
         title: 'Uh oh! Something went wrong.',

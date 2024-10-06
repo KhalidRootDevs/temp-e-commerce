@@ -5,7 +5,9 @@ export const publicRoutes = [
   '/contact',
   '/product',
   '/category',
-  '/checkout'
+  '/checkout',
+  '/privacy',
+  '/terms'
 ];
 
 export const authRoutes = ['/admin-login', '/user-login'];

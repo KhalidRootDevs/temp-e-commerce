@@ -16,8 +16,8 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import { Input } from './input';
 import { Button } from './button';
+import { Input } from './input';
 import { ScrollArea, ScrollBar } from './scroll-area';
 
 interface DataTableProps<TData, TValue> {
@@ -37,9 +37,6 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel()
   });
-
-  /* this can be used to get the selectedrows 
-  console.log("value", table.getFilteredSelectedRowModel()); */
 
   return (
     <>

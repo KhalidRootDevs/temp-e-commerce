@@ -7,7 +7,7 @@ import sidebarReducer from './sidebar/sidebarSlice';
 const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
-    authStore: authSlice,
+    auth: authSlice,
     cart: cartReducer,
     sidebar: sidebarReducer
   },

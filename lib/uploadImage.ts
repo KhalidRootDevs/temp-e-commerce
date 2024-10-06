@@ -14,6 +14,6 @@ export const uploadImage = async (image: any) => {
 
     return data.secure_url;
   } catch (error) {
-    console.log('Error on upload:', error);
+    console.error('Error on upload:', error);
   }
 };

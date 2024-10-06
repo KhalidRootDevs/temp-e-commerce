@@ -11,7 +11,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -24,9 +24,9 @@ const formSchema = z.object({
 type UserFormValue = z.infer<typeof formSchema>;
 
 export default function AdminAuthForm() {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl');
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const defaultValues = {
     email: '',
     password: ''
@@ -38,13 +38,33 @@ export default function AdminAuthForm() {
 
   const onSubmit = async (data: UserFormValue) => {
     setLoading(true);
-    await signIn('credentials', {
+    setError(null);
+
+    const result = await signIn('credentials', {
       email: data.email,
       password: data.password,
       role: 'admin',
-      callbackUrl: callbackUrl ?? '/admin/dashboard'
+      redirect: false
     });
+
+    console.log('result', result);
+
+    if (!result?.error) {
+      router.push('/admin/dashboard');
+    } else {
+      const errorMessage = extractErrorMessage(result.error);
+      setError(errorMessage || 'Authentication failed');
+    }
+
     setLoading(false);
+  };
+
+  const extractErrorMessage = (error: string): string | undefined => {
+    if (error.includes('Configuration')) return 'Invalid credentials';
+    if (error.includes('User not found')) return 'User not found';
+    if (error.includes('Account locked')) return 'Your account is locked';
+
+    return undefined;
   };
 
   return (
@@ -54,6 +74,12 @@ export default function AdminAuthForm() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-2"
         >
+          {error && (
+            <div className="mb-4 rounded-lg bg-red-100 p-4 text-sm text-red-700">
+              {error}
+            </div>
+          )}
+
           <FormField
             control={form.control}
             name="email"
@@ -97,7 +123,7 @@ export default function AdminAuthForm() {
             className="!mt-5 ml-auto w-full"
             type="submit"
           >
-            Login
+            {loading ? 'Logging in...' : 'Login'}
           </Button>
         </form>
       </Form>
