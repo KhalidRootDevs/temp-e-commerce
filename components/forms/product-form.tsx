@@ -25,11 +25,12 @@ import {
   useUpdateApiMutation
 } from '@/features/admin/product/productApi';
 import { ProductFormSchema, ProductFormValues } from '@/lib/form-schema';
+import { uploadImage } from '@/lib/uploadImage';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import FileUploadSingle from '../file-upload-single';
+import ImageDropSingle from '../ImageDropSingle';
 import { Checkbox } from '../ui/checkbox';
 import { useToast } from '../ui/use-toast';
 
@@ -48,10 +49,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 }) => {
   const router = useRouter();
   const { toast } = useToast();
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState(initialData.image || '');
   const [loading, setLoading] = useState(false);
   const [imageType, setImageType] = useState('url');
   const [isValidImage, setIsValidImage] = useState(false);
+  const [productImage, setProductImage] = useState('');
 
   const title = initialData ? 'Edit product' : 'Create product';
   const description = initialData ? 'Edit a product.' : 'Add a new product';
@@ -62,7 +64,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const [updateApi] = useUpdateApiMutation();
 
   const defaultValues = initialData
-    ? initialData
+    ? { ...initialData, category: initialData?.category?.id }
     : {
         name: '',
         description: '',
@@ -91,6 +93,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
   const onSubmit = async (data: ProductFormValues) => {
     try {
+      if (productImage) {
+        data.image = await uploadImage(productImage);
+      }
+
       setLoading(true);
       if (initialData) {
         updateApi({ id, data: data })
@@ -199,15 +205,16 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     />
                   </FormControl>
                   <FormMessage />
-                  {isValidImage && (
-                    <div className="image-preview">
-                      <img
-                        src={imageUrl}
-                        alt="Preview"
-                        className="aspect-square w-40 rounded-lg object-cover"
-                      />
-                    </div>
-                  )}
+                  {isValidImage ||
+                    (imageUrl && (
+                      <div>
+                        <img
+                          src={imageUrl}
+                          alt="Preview"
+                          className="aspect-square w-40 rounded-lg object-cover"
+                        />
+                      </div>
+                    ))}
                 </FormItem>
               )}
             />
@@ -219,10 +226,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormItem>
                   <FormLabel>Images</FormLabel>
                   <FormControl>
-                    <FileUploadSingle
-                      onChange={field.onChange}
-                      value={field.value}
-                      onRemove={field.onChange}
+                    <ImageDropSingle
+                      value={setProductImage}
+                      onChange={(image: any) => setProductImage(image)}
                     />
                   </FormControl>
                   <FormMessage />

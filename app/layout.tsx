@@ -1,6 +1,7 @@
 import { auth } from '@/auth';
 import Providers from '@/components/layout/providers';
 import { Toaster } from '@/components/ui/toaster';
+import StoreProvider from '@/features/context/store-provider';
 import '@uploadthing/react/styles.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -25,10 +26,12 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className}`}>
         <NextTopLoader showSpinner={false} />
-        <Providers session={session}>
-          <Toaster />
-          {children}
-        </Providers>
+        <StoreProvider>
+          <Providers session={session}>
+            <Toaster />
+            {children}
+          </Providers>
+        </StoreProvider>
       </body>
     </html>
   );

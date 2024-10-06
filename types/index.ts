@@ -32,7 +32,10 @@ export type MainNavItem = NavItemWithOptionalChildren;
 export type SidebarNavItem = NavItemWithChildren;
 
 export type Category = {
+  id: string;
   $oid: string;
+  name: string;
+  image: string;
 };
 
 export type Product = {

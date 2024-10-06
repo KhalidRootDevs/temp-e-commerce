@@ -4,6 +4,7 @@ export const publicRoutes = [
   '/about',
   '/contact',
   '/product',
+  '/category',
   '/checkout'
 ];
 

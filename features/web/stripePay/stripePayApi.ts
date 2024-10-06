@@ -9,9 +9,17 @@ export const stripePayApi = apiSlice.injectEndpoints({
         body: data
       }),
       providesTags: ['stripePay']
+    }),
+    createPayment: builder.mutation({
+      query: (data) => ({
+        url: `/stripe/store-intent`,
+        method: 'POST',
+        body: data
+      }),
+      invalidatesTags: ['stripePay']
     })
   })
 });
 
-export const { useGetProductQuery } = stripePayApi;
+export const { useGetProductQuery, useCreatePaymentMutation } = stripePayApi;
 export default stripePayApi;

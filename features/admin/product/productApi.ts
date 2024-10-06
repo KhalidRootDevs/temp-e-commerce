@@ -21,10 +21,10 @@ const productApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [apiEndpoint.tag]
     }),
-    getAllApi: builder.query({
+
+    getAllProductApi: builder.query({
       query: (queries: any) => {
         const values = Object.values(queries);
-
         if (values.length)
           return `${apiEndpoint.getAll}?${new URLSearchParams(queries)}`;
         return apiEndpoint.getAll;
@@ -56,7 +56,7 @@ const productApi = apiSlice.injectEndpoints({
 
 export const {
   useCreateApiMutation,
-  useGetAllApiQuery,
+  useGetAllProductApiQuery,
   useGetByIdApiQuery,
   useDeleteApiMutation,
   useUpdateApiMutation

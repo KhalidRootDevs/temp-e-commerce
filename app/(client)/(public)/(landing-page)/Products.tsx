@@ -15,7 +15,7 @@ export default function Products() {
           {[...Array(5)].map((_, index) => (
             <div key={index} className="animate-pulse space-y-2">
               <div className="h-72 rounded-md bg-gradient-to-r from-gray-200 via-transparent to-gray-400"></div>
-              {/* Add more divs as needed to mimic product card structure */}
+              {/* Add more div as needed to mimic product card structure */}
             </div>
           ))}
         </div>

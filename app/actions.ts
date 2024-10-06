@@ -33,13 +33,7 @@ export async function getNewAccessToken(token: any) {
     const data = await response.json();
 
     if (data.status) {
-      // cookies().set({
-      //   name: 'accessToken',
-      //   value: data.data.accessToken,
-      //   httpOnly: true,
-      //   secure: process.env.NODE_ENV !== 'development',
-      //   path: '/'
-      // });
+      await setAccessToken(data.data.accessToken);
 
       return {
         ...token,
@@ -52,5 +46,21 @@ export async function getNewAccessToken(token: any) {
     }
   } catch (error) {
     throw error;
+  }
+}
+
+export default async function paymentRedirect({ stripe, elements }: any) {
+  try {
+    const result = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/payments/success`
+      }
+    });
+    if (result && result?.error) {
+      window.location.href = '/payments/fail';
+    }
+  } catch (error) {
+    console.error('Payment failed:', error);
   }
 }

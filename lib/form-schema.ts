@@ -5,7 +5,7 @@ export const CategoryFormSchema = z.object({
     .string()
     .min(3, { message: 'Category Name must be at least 3 characters' })
     .max(100, { message: 'Category Name must be at most 100 characters' }),
-  image: z.string().nonempty({ message: 'Category Image is required' }),
+  image: z.any(),
   status: z.boolean().default(true),
   isPopular: z.boolean().default(false)
 });
@@ -17,7 +17,7 @@ export const ProductFormSchema = z.object({
     .string()
     .min(3, { message: 'Product Name must be at least 3 characters' })
     .max(100, { message: 'Product Name must be at most 100 characters' }),
-  image: z.string().nonempty({ message: 'Product Image is required' }),
+  image: z.any(),
   status: z.boolean().default(true),
   isPopular: z.boolean().default(false),
   price: z

@@ -18,11 +18,12 @@ import {
   useCategoryUpdateApiMutation
 } from '@/features/admin/category/categoryApi';
 import { CategoryFormSchema, CategoryFormValues } from '@/lib/form-schema';
+import { uploadImage } from '@/lib/uploadImage';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import FileUploadSingle from '../file-upload-single';
+import ImageDropSingle from '../ImageDropSingle';
 import { Checkbox } from '../ui/checkbox';
 import { useToast } from '../ui/use-toast';
 
@@ -41,7 +42,8 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [imageType, setImageType] = useState('url');
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState(initialData.image || '');
+  const [categoryImage, setCategoryImage] = useState('');
   const [isValidImage, setIsValidImage] = useState(false);
 
   const title = initialData ? 'Edit category' : 'Create category';
@@ -80,6 +82,10 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     try {
       setLoading(true);
 
+      if (categoryImage) {
+        data.image = await uploadImage(categoryImage);
+      }
+
       if (initialData) {
         updateApi({ id, data: data })
           .then((res: any) => {
@@ -106,6 +112,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
               });
               router.push(`/admin/category`);
             } else {
+              console.log('Error', res.error);
               toast({
                 variant: 'destructive',
                 title: 'Uh oh! Something went wrong.',
@@ -117,6 +124,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       }
       router.refresh();
     } catch (error: any) {
+      console.log('error', error);
       toast({
         variant: 'destructive',
         title: 'Uh oh! Something went wrong.',
@@ -187,15 +195,16 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                     />
                   </FormControl>
                   <FormMessage />
-                  {isValidImage && (
-                    <div className="image-preview">
-                      <img
-                        src={imageUrl}
-                        alt="Preview"
-                        className="aspect-square w-40 rounded-lg object-cover"
-                      />
-                    </div>
-                  )}
+                  {isValidImage ||
+                    (imageUrl && (
+                      <div>
+                        <img
+                          src={imageUrl}
+                          alt="Preview"
+                          className="aspect-square w-40 rounded-lg object-cover"
+                        />
+                      </div>
+                    ))}
                 </FormItem>
               )}
             />
@@ -207,10 +216,9 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                 <FormItem>
                   <FormLabel>Images</FormLabel>
                   <FormControl>
-                    <FileUploadSingle
-                      onChange={field.onChange}
-                      value={field.value}
-                      onRemove={field.onChange}
+                    <ImageDropSingle
+                      value={categoryImage}
+                      onChange={(image: any) => setCategoryImage(image)}
                     />
                   </FormControl>
                   <FormMessage />

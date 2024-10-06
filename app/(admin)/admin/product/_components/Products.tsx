@@ -4,14 +4,14 @@ import LoadingPage from '@/components/loading';
 import { DataTableLarge } from '@/components/tables/data-table-large';
 import { columns } from '@/components/tables/product-tables/columns';
 import { Separator } from '@/components/ui/separator';
-import { useGetAllApiQuery } from '@/features/admin/product/productApi';
+import { useGetAllProductApiQuery } from '@/features/admin/product/productApi';
 
 export default function Products({ searchParams }: any) {
   const page = Number(searchParams.page) || 1;
   const pageLimit = Number(searchParams.limit) || 10;
   const query = searchParams.search || null;
 
-  const { isLoading, data: productData } = useGetAllApiQuery({
+  const { isLoading, data: productData } = useGetAllProductApiQuery({
     page: page,
     limit: pageLimit,
     ...(query && { name: query })
