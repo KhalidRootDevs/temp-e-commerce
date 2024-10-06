@@ -15,9 +15,11 @@ import { signOut, useSession } from 'next-auth/react';
 export function UserNav() {
   const { data: session } = useSession();
 
-  const handleLogout = () => {
-    deleteAccessToken();
-    signOut();
+  const handleLogout = async () => {
+    try {
+      await deleteAccessToken();
+      await signOut();
+    } catch (error) {}
   };
 
   if (session) {

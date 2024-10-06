@@ -4,7 +4,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { Icons } from '@/components/icons';
-import { useSidebar } from '@/hooks/useSidebar';
+import { useSelector } from 'react-redux';
+
+import { RootState } from '@/features/store';
 import { cn } from '@/lib/utils';
 import { NavItem } from '@/types';
 import { Dispatch, SetStateAction } from 'react';
@@ -27,7 +29,9 @@ export function DashboardNav({
   isMobileNav = false
 }: DashboardNavProps) {
   const path = usePathname();
-  const { isMinimized } = useSidebar();
+  const isMinimized = useSelector(
+    (state: RootState) => state.sidebar.isMinimized
+  );
 
   if (!items?.length) {
     return null;

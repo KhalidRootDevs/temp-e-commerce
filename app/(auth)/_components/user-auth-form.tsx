@@ -39,12 +39,14 @@ export default function UserAuthForm() {
   });
 
   const onSubmit = async (data: UserFormValue) => {
-    signIn('credentials', {
+    setLoading(true);
+    await signIn('credentials', {
       email: data.email,
       password: data.password,
       role: 'user',
       callbackUrl: callbackUrl ?? '/'
     });
+    setLoading(false);
   };
 
   return (

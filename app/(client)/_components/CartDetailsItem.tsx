@@ -1,5 +1,7 @@
-import useCartStore from '@/store/cartStore';
+import { addToCart, removeFromCart } from '@/features/cart/cartSlice';
+import { RootState } from '@/features/store';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface CartItem {
   id: string;
@@ -13,44 +15,46 @@ interface CartDetailsItemProps {
 }
 
 export default function CartDetailsItem({ item }: CartDetailsItemProps) {
-  const { cart, addToCart, removeFromCart } = useCartStore();
-  const [isInCart, setIsInCart] = useState(false);
+  const dispatch = useDispatch();
+  const cart = useSelector((state: RootState) => state.cart.cart);
   const [itemQuantity, setItemQuantity] = useState(1);
 
   useEffect(() => {
-    const isInCart = cart.some((cartItem) => cartItem.id === item.id);
-    setIsInCart(isInCart);
-    if (isInCart) {
-      const filteredItem = cart.find((cartItem) => cartItem.id === item?.id);
-      setItemQuantity(filteredItem?.quantity || 1);
+    const cartItem = cart.find((cartItem) => cartItem.id === item.id);
+    if (cartItem) {
+      setItemQuantity(cartItem.quantity);
     }
   }, [cart, item.id]);
 
   const handleIncreaseQuantity = () => {
     if (!item.id) return;
-    const newQty = itemQuantity + 1;
-    setItemQuantity(newQty);
-    addToCart({
-      id: item.id,
-      name: item.name,
-      price: item.price,
-      quantity: 1
-    });
-  };
 
-  const handleDecreaseQuantity = () => {
-    if (!item.id) return;
-    if (itemQuantity > 1) {
-      const newQty = itemQuantity - 1;
-      setItemQuantity(newQty);
+    setItemQuantity(itemQuantity + 1);
+    dispatch(
       addToCart({
         id: item.id,
         name: item.name,
         price: item.price,
-        quantity: -1
-      });
+        quantity: 1
+      })
+    );
+  };
+
+  const handleDecreaseQuantity = () => {
+    if (!item.id) return;
+
+    if (itemQuantity > 1) {
+      setItemQuantity(itemQuantity - 1);
+      dispatch(
+        addToCart({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: -1
+        })
+      );
     } else {
-      removeFromCart(item.id);
+      dispatch(removeFromCart(item.id));
       setItemQuantity(1);
     }
   };

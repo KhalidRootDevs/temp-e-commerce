@@ -1,61 +1,71 @@
 import { Button } from '@/components/ui/button';
-import useCartStore from '@/store/cartStore';
+import { addToCart, removeFromCart } from '@/features/cart/cartSlice';
+import { RootState } from '@/features/store';
+
 import { Product } from '@/types';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface ProductCardProps {
   product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const { cart, addToCart, removeFromCart } = useCartStore();
+  const dispatch = useDispatch();
+  const cart = useSelector((state: RootState) => state.cart.cart);
   const [isInCart, setIsInCart] = useState(false);
   const [itemQuantity, setItemQuantity] = useState(1);
 
   useEffect(() => {
-    const isInCart = cart.some((item) => item.id === product.id);
-    setIsInCart(isInCart);
-    if (isInCart) {
-      const item = cart.find((item) => item.id === product.id);
-      setItemQuantity(item?.quantity || 1);
+    const itemInCart = cart.find((item) => item.id === product.id);
+    setIsInCart(!!itemInCart);
+    if (itemInCart) {
+      setItemQuantity(itemInCart.quantity);
     }
   }, [cart, product.id]);
 
   const handleAddToCart = () => {
     if (!product.id) return;
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: itemQuantity
-    });
-  };
 
-  const handleIncreaseQuantity = () => {
-    if (!product.id) return;
-    const newQty = itemQuantity + 1;
-    setItemQuantity(newQty);
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: 1
-    });
-  };
-
-  const handleDecreaseQuantity = () => {
-    if (!product.id) return;
-    if (itemQuantity > 1) {
-      const newQty = itemQuantity - 1;
-      setItemQuantity(newQty);
+    dispatch(
       addToCart({
         id: product.id,
         name: product.name,
         price: product.price,
-        quantity: -1
-      });
+        quantity: itemQuantity
+      })
+    );
+  };
+
+  const handleIncreaseQuantity = () => {
+    if (!product.id) return;
+
+    setItemQuantity(itemQuantity + 1);
+    dispatch(
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: 1
+      })
+    );
+  };
+
+  const handleDecreaseQuantity = () => {
+    if (!product.id) return;
+
+    if (itemQuantity > 1) {
+      setItemQuantity(itemQuantity - 1);
+      dispatch(
+        addToCart({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          quantity: -1
+        })
+      );
     } else {
-      removeFromCart(product.id);
+      dispatch(removeFromCart(product.id));
       setItemQuantity(1);
     }
   };
@@ -79,12 +89,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             $ {product.price}
           </span>
           {!isInCart ? (
-            <Button
-              variant="outline"
-              size="sm"
-              className=""
-              onClick={handleAddToCart}
-            >
+            <Button variant="outline" size="sm" onClick={handleAddToCart}>
               Add to cart
             </Button>
           ) : (

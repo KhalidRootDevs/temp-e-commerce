@@ -3,10 +3,11 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { useSidebar } from '@/hooks/useSidebar';
+import { RootState } from '@/features/store';
 import { cn } from '@/lib/utils';
 import { NavItem } from '@/types';
 import { Dispatch, SetStateAction } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Tooltip,
   TooltipContent,
@@ -26,7 +27,10 @@ export function ClientNav({
   isMobileNav = false
 }: DashboardNavProps) {
   const path = usePathname();
-  const { isMinimized } = useSidebar();
+
+  const isMinimized = useSelector(
+    (state: RootState) => state.sidebar.isMinimized
+  );
 
   if (!items?.length) {
     return null;

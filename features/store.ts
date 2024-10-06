@@ -1,19 +1,22 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { apiSlice } from './api/apiSlice';
 import authSlice from './auth/authSlice';
-import { cartReducer } from './cart/cart.slice';
+import { cartReducer } from './cart/cartSlice';
+import sidebarReducer from './sidebar/sidebarSlice';
 
 const store = configureStore({
   reducer: {
-    // @ts-ignore
     [apiSlice.reducerPath]: apiSlice.reducer,
     authStore: authSlice,
-    cart: cartReducer
+    cart: cartReducer,
+    sidebar: sidebarReducer
   },
-  // @ts-ignore
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares().concat(apiSlice.middleware),
   devTools: process.env.NEXT_PUBLIC_NODE_ENV !== 'production'
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 export default store;

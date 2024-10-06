@@ -1,24 +1,31 @@
 'use client';
+
 import AdminNav from '@/components/layout/admin/admin-nav';
 import { sideLinks } from '@/constants/data';
-import { useSidebar } from '@/hooks/useSidebar';
+import { toggle } from '@/features/sidebar/sidebarSlice';
+import { RootState } from '@/features/store';
 import { cn } from '@/lib/utils';
 import { ChevronLeft } from 'lucide-react';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 type SidebarProps = {
   className?: string;
 };
 
 export default function Sidebar({ className }: SidebarProps) {
-  const { isMinimized, toggle } = useSidebar();
+  const dispatch = useDispatch();
+  const isMinimized = useSelector(
+    (state: RootState) => state.sidebar.isMinimized
+  );
   const [status, setStatus] = useState(false);
 
   const handleToggle = () => {
     setStatus(true);
-    toggle();
+    dispatch(toggle());
     setTimeout(() => setStatus(false), 500);
   };
+
   return (
     <nav
       className={cn(
@@ -45,7 +52,7 @@ export default function Sidebar({ className }: SidebarProps) {
                   ? 'max-h-screen'
                   : 'max-h-0 py-0 md:max-h-screen md:py-2'
               }`}
-              closeNav={() => handleToggle}
+              closeNav={() => handleToggle()}
               links={sideLinks}
               isCollapsed={isMinimized}
             />

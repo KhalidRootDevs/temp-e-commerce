@@ -37,12 +37,14 @@ export default function AdminAuthForm() {
   });
 
   const onSubmit = async (data: UserFormValue) => {
-    signIn('credentials', {
+    setLoading(true);
+    await signIn('credentials', {
       email: data.email,
       password: data.password,
       role: 'admin',
       callbackUrl: callbackUrl ?? '/admin/dashboard'
     });
+    setLoading(false);
   };
 
   return (

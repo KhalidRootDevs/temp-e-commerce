@@ -11,13 +11,18 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet';
-import useCartStore from '@/store/cartStore';
+import { RootState } from '@/features/store';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 import { Icons } from '../../../components/icons';
 import CartDrawerItem from './CartDrawerItem';
 
 export default function CartComponent() {
-  const { cart, totalItems, totalPrice } = useCartStore();
+  // Use Redux to select cart, totalItems, and totalPrice from the state
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const totalItems = useSelector((state: RootState) => state.cart.totalItems);
+  const totalPrice = useSelector((state: RootState) => state.cart.totalPrice);
+
   const router = useRouter();
 
   const handleRedirect = () => {
@@ -47,9 +52,10 @@ export default function CartComponent() {
           <SheetDescription>
             {cart.length
               ? `You have added ${cart.length} items`
-              : `You have not added any item to cart, Please add some items to your cart. Please!`}
+              : `You have not added any item to the cart.`}
           </SheetDescription>
         </SheetHeader>
+
         {/* Render cart items */}
         {cart.length > 0 && (
           <ul className="divide-y py-5">
@@ -65,6 +71,7 @@ export default function CartComponent() {
             <p>${totalPrice.toFixed(2)}</p>
           </div>
         ) : null}
+
         <SheetFooter>
           <SheetClose asChild>
             <Button

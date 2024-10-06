@@ -1,5 +1,7 @@
-import useCartStore from '@/store/cartStore';
+import { addToCart, removeFromCart } from '@/features/cart/cartSlice';
+import { RootState } from '@/features/store';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface CartItem {
   id: string;
@@ -13,13 +15,12 @@ interface CartItemProps {
 }
 
 export default function CartDrawerItem({ item }: CartItemProps) {
-  const { cart, addToCart, removeFromCart } = useCartStore();
-  const [isInCart, setIsInCart] = useState(false);
+  const dispatch = useDispatch();
+  const cart = useSelector((state: RootState) => state.cart.cart);
   const [itemQuantity, setItemQuantity] = useState(1);
 
   useEffect(() => {
     const isInCart = cart.some((cartItem) => cartItem.id === item.id);
-    setIsInCart(isInCart);
     if (isInCart) {
       const filteredItem = cart.find((cartItem) => cartItem.id === item?.id);
       setItemQuantity(filteredItem?.quantity || 1);
@@ -30,12 +31,15 @@ export default function CartDrawerItem({ item }: CartItemProps) {
     if (!item.id) return;
     const newQty = itemQuantity + 1;
     setItemQuantity(newQty);
-    addToCart({
-      id: item.id,
-      name: item.name,
-      price: item.price,
-      quantity: 1
-    });
+
+    dispatch(
+      addToCart({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: 1
+      })
+    );
   };
 
   const handleDecreaseQuantity = () => {
@@ -43,14 +47,17 @@ export default function CartDrawerItem({ item }: CartItemProps) {
     if (itemQuantity > 1) {
       const newQty = itemQuantity - 1;
       setItemQuantity(newQty);
-      addToCart({
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        quantity: -1
-      });
+
+      dispatch(
+        addToCart({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: -1
+        })
+      );
     } else {
-      removeFromCart(item.id);
+      dispatch(removeFromCart(item.id));
       setItemQuantity(1);
     }
   };
@@ -67,7 +74,7 @@ export default function CartDrawerItem({ item }: CartItemProps) {
       <div className="flex items-center justify-between">
         <div className="grid w-20 grid-cols-3 items-center gap-2 rounded-full border px-2 py-0.5">
           <button onClick={handleDecreaseQuantity}>-</button>
-          <span>{item.quantity}</span>
+          <span>{itemQuantity}</span>
           <button onClick={handleIncreaseQuantity}>+</button>
         </div>
         <div>≈ ${(item.price * item.quantity).toFixed(2)}</div>
