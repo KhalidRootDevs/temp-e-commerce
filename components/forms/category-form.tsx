@@ -42,7 +42,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [imageType, setImageType] = useState('url');
-  const [imageUrl, setImageUrl] = useState(initialData.image || '');
+  const [imageUrl, setImageUrl] = useState(initialData?.image || '');
   const [categoryImage, setCategoryImage] = useState('');
   const [isValidImage, setIsValidImage] = useState(false);
 
