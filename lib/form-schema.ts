@@ -38,3 +38,16 @@ export const ProductFormSchema = z.object({
 });
 
 export type ProductFormValues = z.infer<typeof ProductFormSchema>;
+
+export const GeneralSettingsFormSchema = z.object({
+  app_name: z.string().min(1, { message: 'App name is required' }),
+  app_logo: z.string().url('Please enter a valid URL for the logo'),
+  app_title: z.string().min(1, { message: 'App title is required' }),
+  terms: z.string().min(1, 'Terms and conditions are required').max(50000),
+  privacy: z.string().min(1, 'Privacy policy is required').max(50000),
+  stripe_secret: z.string().min(1, 'Stripe secret key is required')
+});
+
+export type GeneralSettingsFormValues = z.infer<
+  typeof GeneralSettingsFormSchema
+>;
