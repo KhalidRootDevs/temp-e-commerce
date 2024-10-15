@@ -4,7 +4,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { useEffect, useState } from 'react';
 import StripeForm from './StripeForm';
 
-const stripePromise = loadStripe('');
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_SECRET || '');
 
 interface PaymentModalProps {
   isOpen: boolean;
