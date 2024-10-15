@@ -1,9 +1,15 @@
 import AllProducts from './_components/AllProducts';
 
-export default function page() {
+type paramsProps = {
+  searchParams: {
+    [key: string]: string | string[] | undefined;
+  };
+};
+
+export default function page({ searchParams }: paramsProps) {
   return (
     <div className="mx-auto max-w-screen-xl">
-      <AllProducts />
+      <AllProducts searchParams={searchParams} />
     </div>
   );
 }

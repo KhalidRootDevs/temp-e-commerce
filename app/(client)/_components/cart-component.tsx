@@ -12,13 +12,13 @@ import {
   SheetTrigger
 } from '@/components/ui/sheet';
 import { RootState } from '@/features/store';
+
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { Icons } from '../../../components/icons';
 import CartDrawerItem from './CartDrawerItem';
 
 export default function CartComponent() {
-  // Use Redux to select cart, totalItems, and totalPrice from the state
   const cart = useSelector((state: RootState) => state.cart.cart);
   const totalItems = useSelector((state: RootState) => state.cart.totalItems);
   const totalPrice = useSelector((state: RootState) => state.cart.totalPrice);

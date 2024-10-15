@@ -36,6 +36,8 @@ export const apiSlice = createApi({
     'product',
     'webCategory',
     'webProduct',
-    'stripePay'
+    'stripePay',
+    'settings',
+    'contact'
   ]
 });

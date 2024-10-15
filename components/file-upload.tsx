@@ -2,7 +2,6 @@
 import { OurFileRouter } from '@/app/api/uploadthing/core';
 import { UploadDropzone } from '@uploadthing/react';
 import { Trash } from 'lucide-react';
-import Image from 'next/image';
 import { UploadFileResponse } from 'uploadthing/client';
 import { IMG_MAX_LIMIT } from './forms/product-form';
 import { Button } from './ui/button';
@@ -48,8 +47,7 @@ export default function FileUpload({
                 </Button>
               </div>
               <div>
-                <Image
-                  fill
+                <img
                   className="object-cover"
                   alt="Image"
                   src={item.url || ''}

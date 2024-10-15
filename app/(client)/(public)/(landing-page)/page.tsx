@@ -8,6 +8,7 @@ export default function Page() {
       <Hero />
       <Banner />
       <Products />
+      {/* <ContactUs /> */}
     </div>
   );
 }

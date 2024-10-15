@@ -2,7 +2,6 @@
 import { OurFileRouter } from '@/app/api/uploadthing/core';
 import { UploadDropzone } from '@uploadthing/react';
 import { Trash } from 'lucide-react';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { UploadFileResponse } from 'uploadthing/client';
 import { Button } from './ui/button';
@@ -55,7 +54,7 @@ export default function FileUploadSingle({
               </Button>
             </div>
             <div>
-              <Image fill className="object-cover" alt="Image" src={value} />
+              <img className="object-cover" alt="Image" src={value} />
             </div>
           </div>
         )}

@@ -30,7 +30,6 @@ const categoryApi = apiSlice.injectEndpoints({
       },
       providesTags: [apiEndpoint.tag]
     }),
-
     categoryGetByIdApi: builder.query({
       query: (id) => `${apiEndpoint.getById}/${id}`,
       providesTags: (result, error, id) => [{ type: apiEndpoint.tag, id }]

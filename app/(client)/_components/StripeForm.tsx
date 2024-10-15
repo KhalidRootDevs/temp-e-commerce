@@ -26,6 +26,17 @@ export default function StripeForm({ email, onClose }: StripeFormProps) {
     try {
       setIsProcessing(true);
 
+      const result = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/payment/success`
+        }
+      });
+
+      if (result && result?.error) {
+        console.log('Error', result.error);
+      }
+
       onClose();
     } catch (error) {
       console.error(error);

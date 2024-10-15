@@ -3,6 +3,7 @@
 import LoadingPage from '@/components/loading';
 import { useGetCategoryQuery } from '@/features/web/category/categoryApi';
 import { Category } from '@/types';
+import Link from 'next/link';
 
 export default function Categories() {
   const { isLoading, data: categoryData } = useGetCategoryQuery({});
@@ -14,7 +15,8 @@ export default function Categories() {
       <h4 className="p-2 text-lg font-semibold">All Category List</h4>
       <div className="flex flex-wrap items-center justify-start gap-5">
         {categoryData?.data?.map((category: Category, index: number) => (
-          <div
+          <Link
+            href={`/product?category=${category.id}`}
             key={index}
             className="flex min-w-[300px] flex-col items-center justify-center rounded-md border border-gray-200 p-5"
           >
@@ -24,7 +26,7 @@ export default function Categories() {
               className="aspect-square h-20 w-20 rounded-md object-contain"
             />
             <p>{category?.name}</p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

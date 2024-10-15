@@ -23,16 +23,18 @@ export default function CheckoutPage() {
 
   const makeEComPayment = async () => {
     try {
-      const { data } = await createPayment({
+      const data: any = await createPayment({
         userName: 'Kbin',
         amount: totalPrice.toFixed(2),
         currency: 'USD',
         paymentId: 12345
       });
 
-      if (data.status) {
+      console.log('DATA HERE', data);
+
+      if (data?.data?.status) {
         setOpen(true);
-        setOptions({ clientSecret: data?.data?.clientSecret });
+        setOptions({ clientSecret: data?.data?.data?.clientSecret });
         setStripePayment(true);
       }
     } catch (error) {

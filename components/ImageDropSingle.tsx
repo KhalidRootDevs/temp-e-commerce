@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Icons } from './icons';
@@ -51,12 +50,9 @@ const ImageDropSingle = ({ className, value, onChange }: any) => {
       >
         {value && preview ? (
           <div className="flex items-center gap-3">
-            <Image
+            <img
               src={preview}
               alt="Uploaded Image"
-              width={0}
-              height={0}
-              sizes="100vw"
               className="h-24 w-24 rounded-md border border-gray-200 object-contain p-1"
             />
             {value && value.name && (

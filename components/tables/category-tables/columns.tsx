@@ -2,7 +2,6 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Product } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
-import Image from 'next/image';
 import { CellAction } from './cell-action';
 
 export const columns: ColumnDef<Product>[] = [
@@ -29,10 +28,7 @@ export const columns: ColumnDef<Product>[] = [
     accessorKey: 'image',
     header: 'IMAGE',
     cell: ({ row }) => (
-      <Image
-        width={0}
-        height={0}
-        sizes="100vh"
+      <img
         src={row.original?.image}
         alt={row.original?.name}
         className="aspect-video h-10 w-fit rounded object-cover"

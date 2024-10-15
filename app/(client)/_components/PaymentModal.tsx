@@ -4,7 +4,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { useEffect, useState } from 'react';
 import StripeForm from './StripeForm';
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_SECRET || '');
+const stripePromise = loadStripe('');
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -41,17 +41,17 @@ export default function PaymentModal({
     setEmail(e.target.value);
   };
 
-  //   const handlePaymentSubmit = async (event: React.FormEvent) => {
-  //     event.preventDefault();
+  const handlePaymentSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
 
-  //     if (!email) {
-  //       alert('Please provide a valid email');
-  //       return;
-  //     }
+    if (!email) {
+      alert('Please provide a valid email');
+      return;
+    }
 
-  //     console.log('User Email:', email);
-  //     console.log('Total Price:', cartDetails.totalPrice);
-  //   };
+    console.log('User Email:', email);
+    console.log('Total Price:', cartDetails.totalPrice);
+  };
 
   return (
     <Modal

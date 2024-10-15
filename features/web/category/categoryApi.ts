@@ -6,12 +6,12 @@ export const categoryApi = apiSlice.injectEndpoints({
       query: () => `/category/all`,
       providesTags: ['webCategory']
     }),
-    categoryProduct: builder.query({
-      query: (id) => `/product/all?category=${id}`,
+    categorySingle: builder.query({
+      query: (id) => `/category/${id}`,
       providesTags: (result, error, id) => [{ type: 'webCategory', id }]
     })
   })
 });
 
-export const { useGetCategoryQuery, useCategoryProductQuery } = categoryApi;
+export const { useGetCategoryQuery, useCategorySingleQuery } = categoryApi;
 export default categoryApi;
