@@ -125,19 +125,19 @@ export const clientNavItems: NavItem[] = [
   {
     title: 'Product',
     href: '/product',
-    icon: 'user',
+    icon: 'cart',
     label: 'Product'
   },
   {
     title: 'Category',
     href: '/category',
-    icon: 'employee',
+    icon: 'list',
     label: 'Category'
   },
   {
     title: 'Contact',
     href: '/contact',
-    icon: 'employee',
+    icon: 'note',
     label: 'Contact'
   }
 ];

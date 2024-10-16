@@ -65,17 +65,6 @@
     --ring: 240 4.9% 83.9%;
   }
 }
-.terms-container * {
-  background-color: transparent !important;
-  /* color: inherit; */
-  color: black !important;
-}
-
-@media (prefers-color-scheme: dark) {
-  .terms-container * {
-    color: white !important; /* Set white text for dark mode */
-  }
-}
 
 @layer base {
   * {

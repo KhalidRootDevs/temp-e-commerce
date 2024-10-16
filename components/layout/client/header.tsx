@@ -1,4 +1,3 @@
-import AuthNav from '@/app/(auth)/_components/auth-nav';
 import ThemeToggle from '@/components/layout/ThemeToggle/theme-toggle';
 import { clientNavItems } from '@/constants/data';
 import { cn } from '@/lib/utils';
@@ -17,7 +16,7 @@ export default function Header() {
         </Link>
 
         <div className="flex items-center gap-2">
-          <AuthNav />
+          {/* <AuthNav /> */}
           <UserNav />
           <ThemeToggle />
         </div>

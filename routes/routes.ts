@@ -7,6 +7,7 @@ export const publicRoutes = [
   '/category',
   '/checkout',
   '/privacy',
+  '/payment',
   '/terms'
 ];
 

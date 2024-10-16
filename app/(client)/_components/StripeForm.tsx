@@ -41,9 +41,9 @@ export default function StripeForm({ email, onClose }: StripeFormProps) {
     } catch (error) {
       console.error(error);
     } finally {
+      onClose();
       setIsProcessing(false);
     }
-
     paymentRedirect({ stripe, elements });
   };
 

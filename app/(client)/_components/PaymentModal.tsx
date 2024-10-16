@@ -80,15 +80,15 @@ export default function PaymentModal({
 
             {/* Email input field */}
             <div className="flex flex-col space-y-2">
-              <label htmlFor="email" className="font-medium">
-                Email Address:
+              <label htmlFor="email" className="text-[15px] text-gray-600">
+                Email address
               </label>
               <input
                 type="email"
                 id="email"
                 value={email}
                 onChange={handleEmailChange}
-                className="w-full rounded-lg border px-3 py-2 focus:border-blue-500 focus:outline-none"
+                className="w-full rounded-[5px] border px-3 py-2 placeholder:text-[15px] placeholder:font-[8px] focus:border-blue-500 focus:outline-none"
                 placeholder="Enter your email"
                 required
               />
