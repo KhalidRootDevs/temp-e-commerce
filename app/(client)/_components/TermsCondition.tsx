@@ -12,6 +12,7 @@ export default function TermsCondition() {
   return (
     <>
       <div
+        className="terms-container text-white"
         dangerouslySetInnerHTML={{ __html: settingsData?.data?.terms }}
       ></div>
     </>
